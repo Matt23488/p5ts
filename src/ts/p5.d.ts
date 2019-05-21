@@ -166,9 +166,43 @@ declare namespace p5 {
     // TODO:
     interface Geometry {}
 
+    // TODO:
+    interface TypedDict<T extends number | string> {
+        size(): number;
+        hasKey(key: T): boolean;
+        get(the: T): T;
+        set(key: T, value: T): void;
+        create(key: T, value: T): void;
+        create(obj: Object): void;
+        clear(): void;
+        remove(key: T): void;
+        print(): void;
+        saveTable(name?: string): void;
+        saveJSON(name?: string): void;
+    }
+
+    interface StringDict extends TypedDict<string> {
+    }
+
+    interface NumberDict extends TypedDict<number> {
+        add(key: number, value: number): void;
+        sub(key: number, value: number): void;
+        mult(key: number, value: number): void;
+        div(key: number, value: number): void;
+        minValue(): number;
+        maxValue(): number;
+        minKey(): number;
+        maxKey(): number;
+    }
+
     interface Renderer {}
 
-    // TODO: This extends p5.Element. Figure out how to make that work (if needed)
+    interface Element {
+        // TODO:
+        background(todo: number): void;
+        ellipse(todo1: number, todo2: number, todo3: number, todo4: number): void;
+    }
+
     /**
      * Thin wrapper around a renderer, to be used for creating a graphics buffer
      * object. Use this class if you need to draw into an off-screen graphics
@@ -176,7 +210,7 @@ declare namespace p5 {
      * fields and methods for this class are extensive, but mirror the normal
      * drawing API for p5.
      */
-    interface Graphics {
+    interface Graphics extends Element {
 
         /**
          * Resets certain values such as those modified by functions in the Transform
@@ -192,9 +226,7 @@ declare namespace p5 {
          */
         remove(): void;
 
-        // TODO:
-        background(todo: number): null;
-        ellipse(todo1: number, todo2: number, todo3: number, todo4: number): void;
+        
     }
 
     interface Vector {
@@ -1256,23 +1288,19 @@ declare var TAU: number;
 declare var TWO_PI: number;
 
 // ENVIRONMENT
-// TODO: Can't declare this, because it techincally overwrites an existing function.
-// declare var print: {
-    
-//     /**
-//      * The print() function writes to the console area of your browser. This
-//      * function is often helpful for looking at the data a program is producing.
-//      * This function creates a new line of text for each call to the function.
-//      * Individual elements can be separated with quotes ("") and joined with the
-//      * addition operator (+).
-//      * 
-//      * Note that calling print() without any arguments invokes the window.print()
-//      * function which opens the browser's print dialog. To print a blank line to
-//      * console you can write print('\n').
-//      * @param contents any combination of Number, String, Object, Boolean, Array to print
-//      */
-//     (contents: any): void;
-// };
+/**
+ * The print() function writes to the console area of your browser. This
+ * function is often helpful for looking at the data a program is producing.
+ * This function creates a new line of text for each call to the function.
+ * Individual elements can be separated with quotes ("") and joined with the
+ * addition operator (+).
+ * 
+ * Note that calling print() without any arguments invokes the window.print()
+ * function which opens the browser's print dialog. To print a blank line to
+ * console you can write print('\n').
+ * @param contents any combination of Number, String, Object, Boolean, Array to print
+ */
+declare function print(contents: any): void;
 
 /**
  * The system variable frameCount contains the number of frames that have
@@ -1736,6 +1764,142 @@ declare var setAttributes: {
     (obj: object): void;
 };
 
+// TRANSFORM
+
+declare var applyMatrix: {
+    (a: number, b: number, c: number, d: number, e: number, f: number): void;
+    /**
+     * This one does not appear to work.
+     */
+    (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number, p: number): void;
+};
+
+declare var resetMatrix: {
+    (): void;
+};
+
+declare var rotate: {
+    (angle: number, axis?: p5.Vector | number[]): void;
+};
+
+declare var rotateX: {
+    (angle: number): void;
+};
+
+declare var rotateY: {
+    (angle: number): void;
+};
+
+declare var rotateZ: {
+    (angle: number): void;
+};
+
+declare var scale: {
+    (s: number | p5.Vector | number[], y?: number, z?: number): void;
+    (scales: p5.Vector | number[]): void;
+};
+
+declare var shearX: {
+    (angle: number): void;
+};
+
+declare var shearY: {
+    (angle: number): void;
+};
+
+declare var translate: {
+    (x: number, y: number, z?: number): void;
+    (vector: p5.Vector): void;
+};
+
+// DATA
+
+// DATA: Dictionary
+
+declare var createStringDict: {
+    (key: string, value: string): p5.StringDict;
+    (object: Object): p5.StringDict;
+};
+
+declare var createNumberDict: {
+    (key: number, value: number): p5.NumberDict;
+    (object: Object): p5.NumberDict;
+};
+
+// DATA: Array Functions
+declare var append: {
+    (array: any[], value: any): any[];
+};
+
+declare function arrayCopy(src: any[], srcPosition: number, dst: any[], dstPosition: number, length: number): void;
+declare function arrayCopy(src: any[], dst: any[], length?: number): void;
+
+declare function concat(a: any[], b: any[]): any[];
+
+declare function reverse(list: any[]): any[];
+
+// Not doing shorten, as it is deprecated and just does what Array.prototype.pop() does
+
+declare function shuffle(array: any[], modify?: boolean): any[];
+
+// Not doing sort, as it is deprecated
+// Not doing splice, as it is deprecated
+// Not doing subset, as it is deprecated
+
+// DATA: Conversion
+declare function float(n: string | boolean | number): number;
+declare function float(ns: Array<string | boolean | number>): number[];
+
+declare function int(n: string | boolean | number, radix?: number): number;
+declare function int(ns: Array<string | boolean | number>): number[];
+
+declare function str(n: string | boolean | number): string;
+declare function str(ns: Array<string | boolean | number>): string[];
+
+declare function boolean(n: string | boolean | number): boolean;
+declare function boolean(ns: Array<string | boolean | number>): boolean[];
+
+declare function byte(n: string | boolean | number): number;
+declare function byte(ns: Array<string | boolean | number>): number[];
+
+declare function char(n: string | number): string;
+declare function char(ns: Array<string | number>): string[];
+
+declare function unchar(n: string): number;
+declare function unchar(ns: string[]): number[];
+
+declare function hex(n: number, digits?: number): string;
+declare function hex(ns: number[], digits?: number): string[];
+
+declare function unhex(n: string): number;
+declare function unhex(ns: string[]): number[];
+
+// DATA: String Functions
+declare function join(list: string[], separator: string): string;
+
+declare function match(str: string, regexp: string): string[];
+
+declare function matchAll(str: string, regexp: string): string[][];
+
+declare function nf(num: number | string, left?: number | string, right?: number | string): string;
+declare function nf(nums: Array<number | string>, left?: number | string, right?: number | string): string[];
+
+declare function nfc(num: number | string, right?: number | string): string;
+declare function nfc(nums: Array<number | string>, right?: number | string): string[];
+
+declare function nfp(num: number, left?: number, right?: number): string;
+declare function nfp(nums: number[], left?: number, right?: number): string[];
+
+declare function nfs(num: number, left?: number, right?: number): string;
+declare function nfs(nums: number[], left?: number, right?: number): string[];
+
+declare function split(value: string, delim: string): string[];
+
+declare function splitTokens(value: string, delim?: string): string[];
+
+declare function trim(str: string): string;
+declare function trim(strs: string[]): string[];
+
 
 
 
@@ -1795,27 +1959,9 @@ declare var millis: {
     (): number;
 };
 
-declare var scale: {
-    (todo: number): void;
-};
-
 declare var normalMaterial: VoidFunction;
 
 declare var orbitControl: VoidFunction;
-
-declare var translate: {
-    (x: number, y: number): void;
-};
-
-declare var rotateX: {
-    (value: number): void;
-};
-declare var rotateY: {
-    (value: number): void;
-};
-declare var rotateZ: {
-    (value: number): void;
-};
 
 
 
@@ -1846,6 +1992,9 @@ declare var sin: {
 declare var cos: {
     (value: number): number;
 };
+declare var tan: {
+    (value: number): number;
+};
 declare var sqrt: {
     (value: number): number;
 };
@@ -1856,11 +2005,6 @@ declare var lerp: {
     (begin: number, end: number, percentage: number): number;
 };
 
-interface PVector {
-    x: number;
-    y: number;
-}
-
 declare var createVector: {
-    (x: number, y: number): PVector;
+    (x?: number, y?: number, z?: number): p5.Vector;
 };

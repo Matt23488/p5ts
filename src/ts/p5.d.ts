@@ -247,12 +247,47 @@ declare namespace p5 {
     }
 
     interface Element {
-        // TODO:
+        // TODO: Not sure where these things actually go....
+        // The documentation for some stuff is really **really** bad
         background(todo: number): void;
         ellipse(todo1: number, todo2: number, todo3: number, todo4: number): void;
+
+        // Now for the stuff that is actually in the documentation for p5.Element
+        elt: HTMLElement;
+        parent(): Node & ParentNode;
+        parent(parent: string | p5.Element | HTMLElement): void;
+        id(): string;
+        id(id: string): void;
+        class(): string;
+        class(val: string): void;
+        mousePressed(callback: VoidFunction): void;
+        mousePressed(cancel: false): void;
+        doubleClicked(callback: VoidFunction): p5.Element;
+        doubleClicked(cancel: false): p5.Element;
+        mouseWheel(callback: VoidFunction): void;
+        mouseWheel(cancel: false): void;
+        mouseReleased(callback: VoidFunction): void;
+        mouseReleased(cancel: false): void;
+        mouseClicked(callback: VoidFunction): void;
+        mouseClicked(cancel: false): void;
+        mouseMoved(callback: VoidFunction): void;
+        mouseMoved(cancel: false): void;
+        mouseOver(callback: VoidFunction): void;
+        mouseOver(cancel: false): void;
+        mouseOut(callback: VoidFunction): void;
+        mouseOut(cancel: false): void;
+        touchStarted(callback: VoidFunction): void;
+        touchStarted(cancel: false): void;
+        touchMoved(callback: VoidFunction): void;
+        touchMoved(cancel: false): void;
+        touchEnded(callback: VoidFunction): void;
+        touchEnded(cancel: false): void;
+        dragOver(callback: VoidFunction): void;
+        dragOver(cancel: false): void;
+        dragLeave(callback: VoidFunction): void;
+        dragLeave(cancel: false): void;
     }
 
-    // TODO: Maybe this extends graphics?
     interface Renderer extends Element {}
 
     /**
@@ -290,6 +325,85 @@ declare namespace p5 {
         function fromAngle(todo1: number, todo2: number): p5.Vector;
         function fromAngles(a: number, b: number, c: number): p5.Vector;
     }
+
+    interface PrintWriter {
+        write(data: any | any[]): void;
+        print(data: any | any[]): void;
+        clear(): void;
+        close(): void;
+    }
+
+    interface Table {
+        columns: string[];
+        rows: p5.TableRow[];
+
+        addRow(row?: p5.TableRow): p5.TableRow;
+        removeRow(id: number): void;
+        getRow(rowID: number): p5.TableRow;
+        getRows(): p5.TableRow[];
+        findRow(value: string, column: number | string): p5.TableRow;
+        findRows(value: string, column: number | string): p5.TableRow[];
+        matchRow(regexp: string | RegExp, column: number | string): p5.TableRow;
+        matchRows(regexp: string | RegExp, column: number | string): p5.TableRow[];
+        getColumn(column: number | string): string[];
+        clearRows(): void;
+        addColumn(title?: string): void;
+        getColumnCount(): number;
+        getRowCount(): number;
+        removeTokens(chars: string, column?: number | string): void;
+        trim(column?: number | string): void;
+        removeColumn(column: number | string): void;
+        set<T extends number | string>(row: number, column: number | string, value: T): void;
+        setNum(row: number, column: number | string, value: number): void;
+        setString(row: number, column: number | string, value: string): void;
+        get<T extends number | string>(row: number, column: number | string): T;
+        getNum(row: number, column: number | string): number;
+        getString(row: number, column: number | string): string;
+        getObject(headerColumn?: string): Object;
+        getArray(): any[][];
+    }
+    const Table: {
+        prototype: p5.Table;
+        new(rows?: p5.TableRow[]): p5.Table;
+    };
+
+    interface TableRow {
+        set<T extends number | string>(column: number | string, value: T): void;
+        setNum(column: number | string, value: number | string): void;
+        setString(column: number | string, value: number | string | boolean | Object): void;
+        get<T extends number | string>(column: number | string): T;
+        getNum(column: number | string): number;
+        getString(column: number | string): string;
+    }
+    const TableRow: {
+        prototype: p5.TableRow;
+        new(str?: string, separator?: string): p5.TableRow;
+    };
+
+    interface XML {
+        getParent(): p5.XML;
+        getName(): string;
+        setName(name: string): void;
+        hasChildren(): boolean;
+        listChildren(): string[];
+        getChildren(name?: string): p5.XML[];
+        getChild(name: number | string): p5.XML;
+        addChild(node: p5.XML): void;
+        removeChild(name: number | string): void;
+        getAttributeCount(): number;
+        listAttributes(): string[];
+        hasAttribute(attribute: string): boolean;
+        getNum(name: string, defaultValue?: number): number;
+        getString(name: string, defaultValue?: string): string;
+        setAttribute(name: string, value: number | string | boolean): void;
+        getContent(defaultValue?: string): string;
+        setContent(text: string): void;
+        serialize(): string;
+    }
+    const XML: {
+        prototype: p5.XML;
+        new(): p5.XML;
+    };
 
     /**
      * Allows for the friendly error system (FES) to be turned off when creating
@@ -1752,6 +1866,23 @@ declare function httpPost<T>(path: string, callback: ((data: T) => void), errorC
 declare function httpDo<T>(path: string, method?: "GET" | "POST" | "PUT", datatype?: "json" | "jsonp" | "xml" | "text", data?: Object, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
 declare function httpDo<T>(path: string, options: RequestInit, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
 
+// IO: Output
+declare function createWriter(name: string, extension?: string): p5.PrintWriter;
+declare function save(filename: string): void;
+declare function save(object: Object, filename: string, options?: boolean | string): void;
+declare function saveJSON(json: any[] | Object, filename: string, optimize?: boolean): void;
+declare function saveStrings(list: string[], filename: string, extension?: string): void;
+declare function saveTable(table: p5.Table, filename: string, options?: "tsv" | "csv" | "html"): void;
+
+// IO: Time & Date
+declare function day(): number;
+declare function hour(): number;
+declare function minute(): number;
+declare function millis(): number;
+declare function month(): number;
+declare function second(): number;
+declare function year(): number;
+
 
 
 
@@ -1803,10 +1934,6 @@ declare var pointLight: {
 
 declare var directionalLight: {
     (a: p5.Color, b: number, c: number, d: number): void;
-};
-
-declare var millis: {
-    (): number;
 };
 
 declare var normalMaterial: VoidFunction;

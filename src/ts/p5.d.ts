@@ -55,9 +55,18 @@ interface Window {
      * effect.
      */
     draw(): void;
-    mousePressed(): void;
-    mouseReleased(): void;
-    mouseClicked(): void;
+
+    mouseMoved(event?: MouseEvent): void;
+    mouseDragged(event?: MouseEvent): void;
+    mousePressed(event?: MouseEvent): void;
+    mouseReleased(event?: MouseEvent): void;
+    mouseClicked(event?: MouseEvent): void;
+    doubleClicked(event?: MouseEvent): void;
+    mouseWheel(event?: WheelEvent): void;
+
+    touchStarted(event?: TouchEvent): void;
+    touchMoved(event?: TouchEvent): void;
+    touchEnded(event?: TouchEvent): void;
 
     /**
      * The windowResized() function is called once every time the browser
@@ -65,6 +74,14 @@ interface Window {
      * other adjustments to accommodate the new window size.
      */
     windowResized(): void;
+
+    deviceMoved(): void;
+    deviceTurned(): void;
+    deviceShaken(): void;
+
+    keyPressed(): void;
+    keyReleased(): void;
+    keyTyped(): void;
 }
 
 // TYPE ALIASES
@@ -82,56 +99,85 @@ interface P5AngleMode {}
 interface P5CursorType {}
 interface P5Renderer {}
 interface P5BlendMode {}
+interface P5DeviceOrientation {}
+interface P5ImageFilterType {}
+interface P5ImageMode {}
 
 // CONSTANTS
-declare var RGB: P5ColorMode;
-declare var HSB: P5ColorMode;
-declare var HSL: P5ColorMode;
-declare var CHORD: P5ArcMode;
-declare var PIE: P5ArcMode;
-declare var OPEN: P5ArcMode;
-declare var CENTER: P5EllipseMode & P5RectMode;
-declare var RADIUS: P5EllipseMode & P5RectMode;
-declare var CORNER: P5EllipseMode & P5RectMode;
-declare var CORNERS: P5EllipseMode & P5RectMode;
-declare var SQUARE: P5StrokeCap;
-declare var PROJECT: P5StrokeCap;
-declare var ROUND: P5StrokeCap & P5StrokeJoin;
-declare var MITER: P5StrokeJoin;
-declare var BEVEL: P5StrokeJoin;
-declare var POINTS: P5ShapeKind;
-declare var LINES: P5ShapeKind;
-declare var TRIANGLES: P5ShapeKind;
-declare var TRIANGLE_FAN: P5ShapeKind;
-declare var TRIANGLE_STRIP: P5ShapeKind;
-declare var QUADS: P5ShapeKind;
-declare var QUAD_STRIP: P5ShapeKind;
-declare var CLOSE: P5EndShapeMode;
-declare var DEGREES: P5AngleMode;
-declare var RADIANS: P5AngleMode;
-declare var ARROW: P5CursorType;
-declare var CROSS: P5CursorType;
-declare var HAND: P5CursorType;
-declare var MOVE: P5CursorType;
-declare var TEXT: P5CursorType;
-declare var WAIT: P5CursorType;
-declare var P2D: P5Renderer;
-declare var WEBGL: P5Renderer;
-declare var BLEND: P5BlendMode;
-declare var DARKEST: P5BlendMode;
-declare var LIGHTEST: P5BlendMode;
-declare var DIFFERENCE: P5BlendMode;
-declare var MULTIPLY: P5BlendMode;
-declare var EXCLUSION: P5BlendMode;
-declare var SCREEN: P5BlendMode;
-declare var REPLACE: P5BlendMode;
-declare var OVERLAY: P5BlendMode;
-declare var HARD_LIGHT: P5BlendMode;
-declare var SOFT_LIGHT: P5BlendMode;
-declare var DODGE: P5BlendMode;
-declare var BURN: P5BlendMode;
-declare var ADD: P5BlendMode;
-declare var SUBTRACT: P5BlendMode;
+declare const RGB: P5ColorMode;
+declare const HSB: P5ColorMode;
+declare const HSL: P5ColorMode;
+declare const CHORD: P5ArcMode;
+declare const PIE: P5ArcMode;
+declare const OPEN: P5ArcMode;
+declare const CENTER: P5EllipseMode & P5RectMode & string & P5ImageMode;
+declare const RADIUS: P5EllipseMode & P5RectMode;
+declare const CORNER: P5EllipseMode & P5RectMode & P5ImageMode;
+declare const CORNERS: P5EllipseMode & P5RectMode & P5ImageMode;
+declare const SQUARE: P5StrokeCap;
+declare const PROJECT: P5StrokeCap;
+declare const ROUND: P5StrokeCap & P5StrokeJoin;
+declare const MITER: P5StrokeJoin;
+declare const BEVEL: P5StrokeJoin;
+declare const POINTS: P5ShapeKind;
+declare const LINES: P5ShapeKind;
+declare const TRIANGLES: P5ShapeKind;
+declare const TRIANGLE_FAN: P5ShapeKind;
+declare const TRIANGLE_STRIP: P5ShapeKind;
+declare const QUADS: P5ShapeKind;
+declare const QUAD_STRIP: P5ShapeKind;
+declare const CLOSE: P5EndShapeMode;
+declare const DEGREES: P5AngleMode;
+declare const RADIANS: P5AngleMode;
+declare const ARROW: P5CursorType;
+declare const CROSS: P5CursorType;
+declare const HAND: P5CursorType;
+declare const MOVE: P5CursorType;
+declare const TEXT: P5CursorType;
+declare const WAIT: P5CursorType;
+declare const P2D: P5Renderer;
+declare const WEBGL: P5Renderer;
+declare const BLEND: P5BlendMode;
+declare const DARKEST: P5BlendMode;
+declare const LIGHTEST: P5BlendMode;
+declare const DIFFERENCE: P5BlendMode;
+declare const MULTIPLY: P5BlendMode;
+declare const EXCLUSION: P5BlendMode;
+declare const SCREEN: P5BlendMode;
+declare const REPLACE: P5BlendMode;
+declare const OVERLAY: P5BlendMode;
+declare const HARD_LIGHT: P5BlendMode;
+declare const SOFT_LIGHT: P5BlendMode;
+declare const DODGE: P5BlendMode;
+declare const BURN: P5BlendMode;
+declare const ADD: P5BlendMode;
+declare const SUBTRACT: P5BlendMode;
+declare const LANDSCAPE: P5DeviceOrientation;
+declare const PORTRAIT: P5DeviceOrientation;
+declare const BACKSPACE: number;
+declare const DELETE: number;
+declare const ENTER: number;
+declare const RETURN: number;
+declare const TAB: number;
+declare const ESCAPE: number;
+declare const SHIFT: number;
+declare const CONTROL: number;
+declare const OPTION: number;
+declare const ALT: number;
+declare const UP_ARROW: number;
+declare const DOWN_ARROW: number;
+declare const LEFT_ARROW: number;
+declare const RIGHT_ARROW: number;
+declare const LEFT: string;
+declare const RIGHT: string;
+declare const THRESHOLD: P5ImageFilterType;
+declare const GRAY: P5ImageFilterType;
+declare const OPAQUE: P5ImageFilterType;
+declare const INVERT: P5ImageFilterType;
+declare const POSTERIZE: P5ImageFilterType;
+declare const BLUR: P5ImageFilterType;
+declare const ERODE: P5ImageFilterType;
+declare const DILATE: P5ImageFilterType;
 
 declare namespace p5 {
     interface Color {
@@ -147,7 +193,26 @@ declare namespace p5 {
     }
 
     // TODO:
-    interface Image {}
+    interface Image {
+        width: number;
+        height: number;
+        pixels: number[];
+
+        loadPixels(): void;
+        updatePixels(): void;
+        get(): p5.Image;
+        get(x: number, y: number): p5.Image;
+        get(x: number, y: number, w: number, h: number): p5.Image;
+        set(x: number, y: number, a: number | number[] | p5.Color | p5.Image): void;
+        resize(width: number, height: number): void;
+        copy(srcImage: p5.Image | p5.Element, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
+        copy(sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
+        mask(srcImage: p5.Image): void;
+        filter(filterType: P5ImageFilterType, filterParam?: number): void;
+        blend(srcImage: p5.Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: P5BlendMode): void;
+        blend(sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: P5BlendMode): void;
+        save(filename: string, extension: "jpg" | "png"): void;
+    }
 
     // TODO:
     interface Geometry {}
@@ -181,13 +246,14 @@ declare namespace p5 {
         maxKey(): number;
     }
 
-    interface Renderer {}
-
     interface Element {
         // TODO:
         background(todo: number): void;
         ellipse(todo1: number, todo2: number, todo3: number, todo4: number): void;
     }
+
+    // TODO: Maybe this extends graphics?
+    interface Renderer extends Element {}
 
     /**
      * Thin wrapper around a renderer, to be used for creating a graphics buffer
@@ -230,7 +296,7 @@ declare namespace p5 {
      * a sketch, which can give a significant boost to performance when needed.
      * See [disabling the friendly error system](https://github.com/processing/p5.js/wiki/Optimizing-p5.js-Code-for-Performance#disable-the-friendly-error-system-fes).
      */
-    var disableFriendlyErrors: boolean;
+    let disableFriendlyErrors: boolean;
 }
 
 // COLOR
@@ -1072,21 +1138,21 @@ declare function model(model: p5.Geometry): void;
  * circle to its diameter. It is useful in combination with the trigonometric
  * functions sin() and cos().
  */
-declare var HALF_PI: number;
+declare const HALF_PI: number;
 
 /**
  * PI is a mathematical constant with the value 3.14159265358979323846. It
  * is the ratio of the circumference of a circle to its diameter. It is useful in
  * combination with the trigonometric functions sin() and cos().
  */
-declare var PI: number;
+declare const PI: number;
 
 /**
  * QUARTER_PI is a mathematical constant with the value 0.7853982. It is
  * one quarter the ratio of the circumference of a circle to its diameter. It is
  * useful in combination with the trigonometric functions sin() and cos().
  */
-declare var QUARTER_PI: number;
+declare const QUARTER_PI: number;
 
 /**
  * TAU is an alias for TWO_PI, a mathematical constant with the value
@@ -1094,7 +1160,7 @@ declare var QUARTER_PI: number;
  * circle to its diameter. It is useful in combination with the trigonometric
  * functions sin() and cos().
  */
-declare var TAU: number;
+declare const TAU: number;
 
 /**
  * TWO_PI is a mathematical constant with the value
@@ -1102,7 +1168,7 @@ declare var TAU: number;
  * circle to its diameter. It is useful in combination with the trigonometric
  * functions sin() and cos().
  */
-declare var TWO_PI: number;
+declare const TWO_PI: number;
 
 // ENVIRONMENT
 /**
@@ -1124,14 +1190,14 @@ declare function print(contents: any): void;
  * been displayed since the program started. Inside setup() the value is 0,
  * after the first iteration of draw it is 1, etc.
  */
-declare var frameCount: number;
+declare const frameCount: number;
 
 /**
  * Confirms if the window a p5.js program is in is "focused," meaning that
  * the sketch will accept mouse or keyboard input. This variable is "true"
  * if the window is focused and "false" if not.
  */
-declare var focused: boolean;
+declare const focused: boolean;
 
 /**
  * Sets the cursor to a predefined symbol or an image, or makes it visible if
@@ -1197,7 +1263,7 @@ declare function noCursor(): void;
  * any display size. To return actual screen size, multiply this by
  * pixelDensity.
  */
-declare var displayWidth: number;
+declare const displayWidth: number;
 
 /**
  * System variable that stores the height of the screen display according to
@@ -1205,19 +1271,19 @@ declare var displayWidth: number;
  * any display size. To return actual screen size, multiply this by
  * pixelDensity.
  */
-declare var displayHeight: number;
+declare const displayHeight: number;
 
 /**
  * System variable that stores the width of the inner window, it maps to
  * window.innerWidth.
  */
-declare var windowWidth: number;
+declare const windowWidth: number;
 
 /**
  * System variable that stores the height of the inner window, it maps to
  * window.innerHeight.
  */
-declare var windowHeight: number;
+declare const windowHeight: number;
 
 /**
  * System variable that stores the width of the drawing canvas. This value is
@@ -1226,7 +1292,7 @@ declare var windowHeight: number;
  * value 320. The value of width defaults to 100 if createCanvas() is not
  * used in a program.
  */
-declare var width: number;
+declare const width: number;
 
 /**
  * System variable that stores the height of the drawing canvas. This value is
@@ -1235,7 +1301,7 @@ declare var width: number;
  * to the value 240. The value of height defaults to 100 if createCanvas() is
  * not used in a program.
  */
-declare var height: number;
+declare const height: number;
 
 /**
  * If argument is given, sets the sketch to fullscreen or not based on the value
@@ -1595,6 +1661,99 @@ declare function splitTokens(value: string, delim?: string): string[];
 declare function trim(str: string): string;
 declare function trim(strs: string[]): string[];
 
+// EVENTS
+// EVENTS: Acceleration
+declare const deviceOrientation: P5DeviceOrientation | undefined;
+declare const accelerationX: number;
+declare const accelerationY: number;
+declare const accelerationZ: number;
+declare const pAccelerationX: number;
+declare const pAccelerationY: number;
+declare const pAccelerationZ: number;
+declare const rotationX: number;
+declare const rotationY: number;
+declare const rotationZ: number;
+declare const pRotationX: number;
+declare const pRotationY: number;
+declare const pRotationZ: number;
+declare const turnAxis: "X" | "Y" | "Z";
+declare function setMoveThreshold(value: number): void;
+declare function setShakeThreshold(value: number): void;
+
+// EVENTS: Keyboard
+declare const keyIsPressed: boolean;
+declare const key: string;
+declare const keyCode: number;
+declare function keyIsDown(code: number): boolean;
+
+// EVENTS: Mouse
+declare const mouseX: number;
+declare const mouseY: number;
+declare const pmouseX: number;
+declare const pmouseY: number;
+declare const winMouseX: number;
+declare const winMouseY: number;
+declare const pwinMouseX: number;
+declare const pwinMouseY: number;
+declare const mouseButton: string;
+declare const mouseIsPressed: boolean;
+
+// EVENTS: Touch
+declare const touches: { x: number, y: number, winX: number, winY: number, id: number }[];
+
+// IMAGE
+declare function createImage(width: number, height: number): p5.Image;
+declare function saveCanvas(selectedCanvas?: p5.Element | HTMLCanvasElement, filename?: string, extension?: "jpg" | "png"): void;
+declare function saveCanvas(filename?: string, extension?: "jpg" | "png"): void;
+declare function saveFrames(filename: string, extension: "jpg" | "png", duration: number, framerate: number, callback?: ((images: { imageData: string, filename: string, ext: string }[]) => void)): void;
+
+// IMAGE: Loading & Displaying
+declare function loadImage(path: string, successCallback?: ((image: p5.Image) => void), failureCallback?: ((e: Event) => void)): p5.Image;
+declare function image(img: p5.Image | p5.Element, x: number, y: number, width?: number, height?: number): void;
+declare function image(img: p5.Image | p5.Element, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth?: number, sHeight?: number): void;
+declare function tint(v1: number, v2: number, v3: number, alpha?: number): void;
+declare function tint(value: string): void;
+declare function tint(gray: number, alpha?: number): void;
+declare function tint(values: number[]): void;
+declare function tint(color: p5.Color): void;
+declare function noTint(): void;
+declare function imageMode(mode: P5ImageMode): void;
+
+// IMAGE: Pixels
+declare const pixels: number[];
+declare function blend(srcImage: p5.Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: P5BlendMode): void;
+declare function blend(sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: P5BlendMode): void;
+declare function copy(srcImage: p5.Image | p5.Element, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
+declare function copy(sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number): void;
+declare function filter(filterType: P5ImageFilterType, filterParam?: number): void;
+declare function get(): p5.Image;
+declare function get(x: number, y: number): p5.Image;
+declare function get(x: number, y: number, w: number, h: number): p5.Image;
+declare function loadPixels(): void;
+declare function set(x: number, y: number, c: number | number[] | p5.Color | p5.Image): void;
+declare function updatePixels(x?: number, y?: number, w?: number, h?: number): void;
+
+// IO
+// IO: Input
+declare function loadJSON(path: string, jsonpOptions?: object, datatype?: "json" | "jsonp", callback?: ((json: any) => void), errorCallback?: ((response: any) => void)): object | any[];
+declare function loadJSON(path: string, datatype: "json" | "jsonp", callback?: ((json: any) => void), errorCallback?: ((response: any) => void)): object | any[];
+declare function loadJSON(path: string, callback: ((json: any) => void), errorCallback?: ((response: any) => void)): object | any[];
+declare function loadStrings(filename: string, callback?: ((strs: string[]) => void), errorCallback?: ((response: any) => void)): string[];
+declare function loadTable(filename: string, options: "header" | "csv" | "tsv", callback?: ((table: p5.Table) => void), errorCallback?: ((response: any) => void)): p5.Table;
+declare function loadTable(filename: string, callback?: ((table: p5.Table) => void), errorCallback?: ((response: any) => void)): p5.Table;
+declare function loadXML(filename: string, callback?: ((xml : p5.XML) => void), errorCallback?: ((response: any) => void)): p5.XML;
+declare function loadBytes(file: string, callback?: ((data: { bytes: Uint8Array }) => void), errorCallback?: ((response: any) => void)): { bytes: Uint8Array };
+declare function httpGet<T>(path: string, datatype?: "json" | "jsonp" | "binary" | "arrayBuffer" | "xml" | "text", data?: Object | boolean, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+declare function httpGet<T>(path: string, data: Object | boolean, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+declare function httpGet<T>(path: string, callback: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+declare function httpPost<T>(path: string, datatype?: "json" | "jsonp" | "binary" | "arrayBuffer" | "xml" | "text", data?: Object | boolean, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+declare function httpPost<T>(path: string, data: Object | boolean, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+declare function httpPost<T>(path: string, callback: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+declare function httpDo<T>(path: string, method?: "GET" | "POST" | "PUT", datatype?: "json" | "jsonp" | "xml" | "text", data?: Object, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+declare function httpDo<T>(path: string, options: RequestInit, callback?: ((data: T) => void), errorCallback?: ((response: any) => void)): Promise<T>;
+
+
+
 
 
 
@@ -1646,10 +1805,6 @@ declare var directionalLight: {
     (a: p5.Color, b: number, c: number, d: number): void;
 };
 
-declare var image: {
-    (todo1: p5.Graphics, todo2: number, todo3: number): void;
-};
-
 declare var millis: {
     (): number;
 };
@@ -1664,14 +1819,6 @@ declare var orbitControl: VoidFunction;
 declare var text: {
     (value: any, a: number, b: number, c: number, d: number): void;
 };
-
-
-declare var loadPixels: VoidFunction;
-declare var updatePixels: VoidFunction;
-
-declare var pixels: Array<number>;
-declare var mouseX: number;
-declare var mouseY: number;
 
 declare var map: {
     (value: number, inMin: number, inMax: number, outMin: number, outMax: number): number;

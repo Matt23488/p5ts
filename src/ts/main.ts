@@ -1,14 +1,17 @@
+let earthquakes: any;
+
+window.preload = () => {
+    let url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+    earthquakes = loadJSON(url);
+};
+
 window.setup = () => {
     // Example Defaults
     // createCanvas(100, 100);
     // createCanvas(100, 100, WEBGL);
 
     // Custom setup
-    const string = "  No new lines\n   ";
-    print(trim(string) + " here");
-
-    const strs = [" asdf ", "        qwerty\n   "];
-    print(trim(strs));
+    noLoop();
 };
 
 window.draw = () => {
@@ -18,10 +21,10 @@ window.draw = () => {
     // stroke(0);
 
     // Custom draw
-};
-
-window.mousePressed = () => {
-};
-
-window.mouseReleased = () => {
+    background(200);
+    let earthquakeMag = earthquakes.features[0].properties.mag;
+    let earthquakeName = earthquakes.features[0].properties.place;
+    ellipse(width / 2, height / 2, earthquakeMag * 10, earthquakeMag * 10);
+    textAlign(CENTER);
+    text(earthquakeName, 0, height - 30, width, 30);
 };

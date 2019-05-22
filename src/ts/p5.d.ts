@@ -265,32 +265,26 @@ declare namespace p5 {
 // }
 
 // COLOR: Creating & Reading
-declare var alpha: {
-    /**
-     * Extracts the alpha value from a color or pixel array.
-     * @param color p5.Color object, color components, or CSS color
-     * @returns the alpha value
-     */
-    (color: p5.Color | number[] | string): number;
-};
+/**
+ * Extracts the alpha value from a color or pixel array.
+ * @param color p5.Color object, color components, or CSS color
+ * @returns the alpha value
+ */
+declare function alpha(color: p5.Color | number[] | string): number;
 
-declare var blue: {
-    /**
-     * Extracts the blue value from a color or pixel array.
-     * @param color p5.Color object, color components, or CSS color
-     * @returns the blue value
-     */
-    (color: p5.Color | number[] | string): number;
-};
+/**
+ * Extracts the blue value from a color or pixel array.
+ * @param color p5.Color object, color components, or CSS color
+ * @returns the blue value
+ */
+declare function blue(color: p5.Color | number[] | string): number;
 
-declare var brightness: {
-    /**
-     * Extracts the HSB brightness value from a color or pixel array.
-     * @param color p5.Color object, color components, or CSS color
-     * @returns the brightness value
-     */
-    (color: p5.Color | number[] | string): number;
-};
+/**
+ * Extracts the HSB brightness value from a color or pixel array.
+ * @param color p5.Color object, color components, or CSS color
+ * @returns the brightness value
+ */
+declare function brightness(color: p5.Color | number[] | string): number;
 
 declare var color: {
     /**

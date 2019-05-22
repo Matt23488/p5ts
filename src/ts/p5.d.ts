@@ -102,6 +102,9 @@ interface P5BlendMode {}
 interface P5DeviceOrientation {}
 interface P5ImageFilterType {}
 interface P5ImageMode {}
+interface P5HorizontalAlign {}
+interface P5VerticalAlign {}
+interface P5TextStyle {}
 
 // CONSTANTS
 declare const RGB: P5ColorMode;
@@ -110,7 +113,7 @@ declare const HSL: P5ColorMode;
 declare const CHORD: P5ArcMode;
 declare const PIE: P5ArcMode;
 declare const OPEN: P5ArcMode;
-declare const CENTER: P5EllipseMode & P5RectMode & string & P5ImageMode;
+declare const CENTER: P5EllipseMode & P5RectMode & string & P5ImageMode & P5HorizontalAlign & P5VerticalAlign;
 declare const RADIUS: P5EllipseMode & P5RectMode;
 declare const CORNER: P5EllipseMode & P5RectMode & P5ImageMode;
 declare const CORNERS: P5EllipseMode & P5RectMode & P5ImageMode;
@@ -168,8 +171,8 @@ declare const UP_ARROW: number;
 declare const DOWN_ARROW: number;
 declare const LEFT_ARROW: number;
 declare const RIGHT_ARROW: number;
-declare const LEFT: string;
-declare const RIGHT: string;
+declare const LEFT: string & P5HorizontalAlign;
+declare const RIGHT: string & P5HorizontalAlign;
 declare const THRESHOLD: P5ImageFilterType;
 declare const GRAY: P5ImageFilterType;
 declare const OPAQUE: P5ImageFilterType;
@@ -178,6 +181,12 @@ declare const POSTERIZE: P5ImageFilterType;
 declare const BLUR: P5ImageFilterType;
 declare const ERODE: P5ImageFilterType;
 declare const DILATE: P5ImageFilterType;
+declare const TOP: P5VerticalAlign;
+declare const BASELINE: P5VerticalAlign;
+declare const NORMAL: P5TextStyle;
+declare const ITALIC: P5TextStyle;
+declare const BOLD: P5TextStyle;
+declare const BOLDITALIC: P5TextStyle;
 
 declare namespace p5 {
     interface Color {
@@ -319,11 +328,50 @@ declare namespace p5 {
     interface Vector {
         x: number;
         y: number;
-        add(todo1: number, todo2: number): p5.Vector;
+        z: number;
+        
+        toString(): string;
+        set(x?: number, y?: number, z?: number): void;
+        set(value: p5.Vector | number[]): void;
+        copy(): p5.Vector;
+        add(x: number, y?: number, z?: number): p5.Vector;
+        add(value: p5.Vector | number[]): p5.Vector;
+        sub(x: number, y?: number, z?: number): p5.Vector;
+        sub(value: p5.Vector | number[]): p5.Vector;
+        mult(n: number): p5.Vector;
+        div(n: number): p5.Vector;
+        mag(): number;
+        magSq(): number;
+        dot(x: number, y?: number, z?: number): number;
+        dot(value: p5.Vector): number;
+        cross(v: p5.Vector): p5.Vector;
+        dist(v: p5.Vector): number;
+        normalize(): p5.Vector;
+        limit(max: number): void;
+        setMag(len: number): void;
+        heading(): number;
+        rotate(angle: number): p5.Vector;
+        angleBetween(other: p5.Vector): number;
+        lerp(x: number, y: number, z: number, amt: number): p5.Vector;
+        lerp(v: p5.Vector, amt: number): p5.Vector;
+        array(): number[];
+        equals(x?: number, y?: number, z?: number): boolean;
+        equals(value: p5.Vector | number[]): boolean;
     }
     namespace Vector {
-        function fromAngle(todo1: number, todo2: number): p5.Vector;
-        function fromAngles(a: number, b: number, c: number): p5.Vector;
+        function add(v1: p5.Vector, v2: p5.Vector, target?: p5.Vector): p5.Vector;
+        function sub(v1: p5.Vector, v2: p5.Vector, target?: p5.Vector): p5.Vector;
+        function mult(v: p5.Vector, n: number, target?: p5.Vector): p5.Vector;
+        function div(v: p5.Vector, n: number, target?: p5.Vector): p5.Vector;
+        function mag(vecT: p5.Vector): number;
+        function dot(v1: p5.Vector, v2: p5.Vector): number;
+        function cross(v1: p5.Vector, v2: p5.Vector): p5.Vector;
+        function dist(v1: p5.Vector, v2: p5.Vector): number;
+        function lerp(v1: p5.Vector, v2: p5.Vector, amt: number, target?: p5.Vector): p5.Vector;
+        function fromAngle(angle: number, length: number): p5.Vector;
+        function fromAngles(theta: number, phi: number, length?: number): p5.Vector;
+        function random2D(): p5.Vector;
+        function random3D(): p5.Vector;
     }
 
     interface PrintWriter {
@@ -404,6 +452,13 @@ declare namespace p5 {
         prototype: p5.XML;
         new(): p5.XML;
     };
+
+    interface Font {
+        font: Object; // TODO: figure out what the type actually is
+
+        textBounds(line: string, x: number, y: number, fontSize?: number, options?: Object): { x: number, y: number, w: number, h: number };
+        textToPoints(txt: string, x: number, y: number, fontSize?: number, options?: { sampleFactor?: number, simplifyThreshold?: number }): { x: number, y: number, alpha: number }[];
+    }
 
     /**
      * Allows for the friendly error system (FES) to be turned off when creating
@@ -1883,6 +1938,73 @@ declare function month(): number;
 declare function second(): number;
 declare function year(): number;
 
+// MATH
+declare function createVector(x?: number, y?: number, z?: number): p5.Vector;
+
+// MATH: Calculation
+declare function abs(n: number): number;
+declare function ceil(n: number): number;
+declare function constrain(n: number, low: number, high: number): number;
+declare function dist(x1: number, y1: number, x2: number, y2: number): number;
+declare function dist(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number): number;
+declare function exp(n: number): number;
+declare function floor(n: number): number;
+declare function lerp(start: number, stop: number, amt: number): number;
+declare function log(n: number): number;
+declare function mag(a: number, b: number): number;
+declare function map(value: number, start1: number, stop1: number, start2: number, stop2: number, withinBounds?: boolean): number;
+declare function max(n0: number, n1: number): number;
+declare function max(nums: number[]): number;
+declare function min(n0: number, n1: number): number;
+declare function min(nums: number[]): number;
+declare function norm(value: number, start: number, stop: number): number;
+declare function pow(n: number, e: number): number;
+declare function round(n: number): number;
+declare function sq(n: number): number;
+declare function sqrt(n: number): number;
+
+// MATH: Noise
+declare function noise(x: number, y?: number, z?: number): number;
+declare function noiseDetail(lod: number, falloff: number): void;
+declare function noiseSeed(seed: number): void;
+
+// MATH: Trigonometry
+declare function acos(value: number): number;
+declare function asin(value: number): number;
+declare function atan(value: number): number;
+declare function atan2(y: number, x: number): number;
+declare function cos(angle: number): number;
+declare function sin(angle: number): number;
+declare function tan(angle: number): number;
+declare function degrees(radians: number): number;
+declare function radians(degrees: number): number;
+declare function angleMode(mode: P5AngleMode): void;
+
+// MATH: Random
+declare function randomSeed(seed: number): void;
+declare function random(min?: number, max?: number): number;
+declare function random<T>(choices: T[]): T;
+declare function randomGaussian(mean?: number, sd?: number): number;
+
+// TYPOGRAPHY: Attributes
+declare function textAlign(horizAlign: P5HorizontalAlign, vertAlign?: P5VerticalAlign): void;
+// textAlign() with no args?
+declare function textLeading(leading: number): void;
+// textLeading() with no args?
+declare function textSize(size: number): void;
+// textSize() with no args?
+declare function textStyle(style: P5TextStyle): void;
+// textStyle() with no args?
+declare function textWidth(text: string): number;
+declare function textAscent(): number;
+declare function textDescent(): number;
+
+// TYPOGRAPHY: Loading & Displaying
+declare function loadFont(path: string, callback?: VoidFunction, onError?: VoidFunction): p5.Font;
+declare function text(str: string | Object | any[] | number | boolean, x: number, y: number, x2?: number, y2?: number): void;
+declare function textFont(): p5.Font;
+declare function textFont(font: p5.Font | string, size?: number): void;
+
 
 
 
@@ -1939,41 +2061,3 @@ declare var directionalLight: {
 declare var normalMaterial: VoidFunction;
 
 declare var orbitControl: VoidFunction;
-
-
-
-
-declare var text: {
-    (value: any, a: number, b: number, c: number, d: number): void;
-};
-
-declare var map: {
-    (value: number, inMin: number, inMax: number, outMin: number, outMax: number): number;
-};
-
-declare var abs: {
-    (value: number): number;
-};
-
-declare var sin: {
-    (value: number): number;
-};
-declare var cos: {
-    (value: number): number;
-};
-declare var tan: {
-    (value: number): number;
-};
-declare var sqrt: {
-    (value: number): number;
-};
-declare var atan2: {
-    (a: number, b: number): number;
-};
-declare var lerp: {
-    (begin: number, end: number, percentage: number): number;
-};
-
-declare var createVector: {
-    (x?: number, y?: number, z?: number): p5.Vector;
-};

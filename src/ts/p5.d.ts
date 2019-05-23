@@ -105,6 +105,11 @@ interface P5ImageMode {}
 interface P5HorizontalAlign {}
 interface P5VerticalAlign {}
 interface P5TextStyle {}
+interface P5DebugMode {}
+interface P5GridDebugMode extends P5DebugMode {}
+interface P5AxesDebugMode extends P5DebugMode {}
+interface P5TextureMode {}
+interface P5TextureWrap {}
 
 // CONSTANTS
 declare const RGB: P5ColorMode;
@@ -183,10 +188,16 @@ declare const ERODE: P5ImageFilterType;
 declare const DILATE: P5ImageFilterType;
 declare const TOP: P5VerticalAlign;
 declare const BASELINE: P5VerticalAlign;
-declare const NORMAL: P5TextStyle;
+declare const NORMAL: P5TextStyle & P5TextureMode;
 declare const ITALIC: P5TextStyle;
 declare const BOLD: P5TextStyle;
 declare const BOLDITALIC: P5TextStyle;
+declare const GRID: P5GridDebugMode;
+declare const AXES: P5AxesDebugMode;
+declare const IMAGE: P5TextureMode;
+declare const CLAMP: P5TextureWrap;
+declare const REPEAT: P5TextureWrap;
+declare const MIRROR: P5TextureWrap;
 
 declare namespace p5 {
     interface Color {
@@ -224,7 +235,16 @@ declare namespace p5 {
     }
 
     // TODO:
-    interface Geometry {}
+    interface Geometry {
+        computeFaces(): p5.Geometry;
+        computeNormals(): p5.Geometry;
+        averageNormals(): p5.Geometry;
+        averagePoleNormals(): p5.Geometry;
+        normalize(): p5.Geometry;
+    }
+    const Geometry: {
+        new(detailX?: number, detailY?: number, callback?: VoidFunction): p5.Geometry;
+    };
 
     // TODO:
     interface TypedDict<T extends number | string> {
@@ -458,6 +478,21 @@ declare namespace p5 {
 
         textBounds(line: string, x: number, y: number, fontSize?: number, options?: Object): { x: number, y: number, w: number, h: number };
         textToPoints(txt: string, x: number, y: number, fontSize?: number, options?: { sampleFactor?: number, simplifyThreshold?: number }): { x: number, y: number, alpha: number }[];
+    }
+
+    interface Camera {
+        perspective(fovy?: number, aspect?: number, near?: number, far?: number): void;
+        ortho(left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number): void;
+        pan(angle: number): void;
+        tilt(angle: number): void;
+        lookAt(x: number, y: number, z: number): void;
+        camera(x?: number, y?: number, z?: number, centerX?: number, centerY?: number, centerZ?: number, upX?: number, upY?: number, upZ?: number): void;
+        move(x: number, y: number, z: number): void;
+        setPosition(x: number, y: number, z: number): void;
+    }
+
+    interface Shader {
+        setUniform(uniformName: string, data: Object | number | boolean | number[]): p5.Shader;
     }
 
     /**
@@ -2005,59 +2040,50 @@ declare function text(str: string | Object | any[] | number | boolean, x: number
 declare function textFont(): p5.Font;
 declare function textFont(font: p5.Font | string, size?: number): void;
 
+// LIGHTS, CAMERA: Interaction
+declare function orbitControl(sensitivityX?: number, sensitivityY?: number): void;
+declare function debugMode(): void;
+declare function debugMode(mode: P5DebugMode): void;
+declare function debugMode(mode: P5GridDebugMode, gridSize?: number, gridDivisions?: number, xOff?: number, yOff?: number, zOff?: number): void;
+declare function debugMode(mode: P5AxesDebugMode, axesSize?: number, xOff?: number, yOff?: number, zOff?: number): void;
+declare function debugMode(gridSize?: number, gridDivisions?: number, gridXOff?: number, gridYOff?: number, gridZOff?: number, axesSize?: number, axesXOff?: number, axesYOff?: number, axesZOff?: number): void;
+declare function noDebugMode(): void;
 
+// LIGHTS, CAMERA: Lights
+declare function ambientLight(v1: number, v2: number, v3: number, alpha?: number): void;
+declare function ambientLight(value: string): void;
+declare function ambientLight(gray: number, alpha?: number): void;
+declare function ambientLight(values: number[]): void;
+declare function ambientLight(color: p5.Color): void;
+declare function directionalLight(v1: number, v2: number, v3: number, x: number, y: number, z: number): void;
+declare function directionalLight(v1: number, v2: number, v3: number, position: p5.Vector): void;
+declare function directionalLight(color: number[] | string | p5.Color, x: number, y: number, z: number): void;
+declare function directionalLight(color: number[] | string | p5.Color, position: p5.Vector): void;
+declare function pointLight(v1: number, v2: number, v3: number, x: number, y: number, z: number): void;
+declare function pointLight(v1: number, v2: number, v3: number, position: p5.Vector): void;
+declare function pointLight(color: number[] | string | p5.Color, x: number, y: number, z: number): void;
+declare function pointLight(color: number[] | string | p5.Color, position: p5.Vector): void;
+declare function lights(): void;
 
+// LIGHTS, CAMERA: Material
+declare function loadShader(vertFilename: string, fragFilename: string, callback?: ((shader: p5.Shader) => void), errorCallback?: ((error: Error) => void)): p5.Shader;
+declare function createShader(vertSrc: string, fragSrc: string): p5.Shader;
+declare function shader(shader: p5.Shader): void;
+declare function resetShader(): void;
+declare function normalMaterial(): void;
+declare function texture(tex: p5.Image | p5.MediaElement | p5.Graphics): void;
+declare function textureMode(mode: P5TextureMode): void;
+declare function textureWrap(wrap: P5TextureWrap): void;
+declare function textureWrap(wrapX: P5TextureWrap, wrapY: P5TextureWrap): void;
+declare function ambientMaterial(v1: number, v2?: number, v3?: number, a?: number): void;
+declare function ambientMaterial(color: number[] | string | p5.Color): void;
+declare function specularMaterial(v1: number, v2?: number, v3?: number, a?: number): void;
+declare function specularMaterial(color: number[] | string | p5.Color): void;
+declare function shininess(shine: number): void;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-declare var specularMaterial: {
-    (a: number): void;
-};
-
-declare var pointLight: {
-    (a: p5.Color, b: p5.Vector): void;
-}
-
-declare var directionalLight: {
-    (a: p5.Color, b: number, c: number, d: number): void;
-};
-
-declare var normalMaterial: VoidFunction;
-
-declare var orbitControl: VoidFunction;
+// LIGHTS, CAMERA: Camera
+declare function camera(x?: number, y?: number, z?: number, centerX?: number, centerY?: number, centerZ?: number, upX?: number, upY?: number, upZ?: number): void;
+declare function perspective(fovy?: number, aspect?: number, near?: number, far?: number): void;
+declare function ortho(left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number): void;
+declare function createCamera(): p5.Camera;
+declare function setCamera(cam: p5.Camera): void;

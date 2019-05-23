@@ -250,6 +250,7 @@ declare namespace p5 {
         normalize(): p5.Geometry;
     }
     const Geometry: {
+        prototype: p5.Geometry;
         new(detailX?: number, detailY?: number, callback?: VoidFunction): p5.Geometry;
     };
 

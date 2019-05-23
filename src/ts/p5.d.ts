@@ -208,7 +208,7 @@ declare const MIRROR: P5TextureWrap & string;
 
 declare namespace p5 {
     interface Color {
-        toString(format?: "#rgb" | "$rgba" | "#rrggbb" | "#rrggbbaa" | "rgb" | "hsb" | "hsl" | "rgba" | "hsba" | "hsla" | "rgb%" | "hsb%" | "hsl%" | "rgba%" | "hsba%" | "hsla%"): string;
+        toString(format?: "#rgb" | "#rgba" | "#rrggbb" | "#rrggbbaa" | "rgb" | "hsb" | "hsl" | "rgba" | "hsba" | "hsla" | "rgb%" | "hsb%" | "hsl%" | "rgba%" | "hsba%" | "hsla%"): string;
         setRed(red: number): void;
         setGreen(green: number): void;
         setBlue(blue: number): void;

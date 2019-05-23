@@ -1,9 +1,9 @@
 interface P5SizeConstant {}
 interface P5CaptureConstant {}
 
-declare const AUTO: P5SizeConstant;
-declare const AUDIO: P5CaptureConstant;
-declare const VIDEO: P5CaptureConstant;
+declare const AUTO: P5SizeConstant & string;
+declare const AUDIO: P5CaptureConstant & string;
+declare const VIDEO: P5CaptureConstant & string;
 
 declare namespace p5 {
     /**
